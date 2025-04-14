@@ -1,0 +1,90 @@
+{
+  "name": "root",
+  "id": "35dbd1c7-bb21-4e35-91ec-6eae4d514680",
+  "parent_id": null,
+  "node_type": "Node",
+  "children": [
+    {
+      "name": "Frankrijk",
+      "id": "ecf4fab6-f81d-43db-b127-e1e785caf655",
+      "parent_id": "35dbd1c7-bb21-4e35-91ec-6eae4d514680",
+      "node_type": "Location",
+      "coords": "500",
+      "children": [
+        {
+          "name": "Fontainebleau",
+          "id": "fd421cfd-3e4d-45a9-bcf9-88bc14e95a88",
+          "parent_id": "ecf4fab6-f81d-43db-b127-e1e785caf655",
+          "node_type": "Location",
+          "coords": null,
+          "children": [
+            {
+              "name": "Franchard",
+              "id": "e9fed168-8de5-4754-a6c6-2633629c71cb",
+              "parent_id": "fd421cfd-3e4d-45a9-bcf9-88bc14e95a88",
+              "node_type": "Location",
+              "coords": null,
+              "children": [
+                {
+                  "name": "Isatis",
+                  "id": "6ddcc47a-3532-45c4-b652-b9331ed0eb83",
+                  "parent_id": "e9fed168-8de5-4754-a6c6-2633629c71cb",
+                  "node_type": "Location",
+                  "coords": null,
+                  "children": [
+                    {
+                      "name": "baloo",
+                      "id": "eb8dfb8d-e1eb-4c76-831e-857bacdc7388",
+                      "parent_id": "6ddcc47a-3532-45c4-b652-b9331ed0eb83",
+                      "node_type": "Route",
+                      "grade": "7b",
+                      "type": "Boulder",
+                      "comments": [
+                        "gotta get them biceps"
+                      ],
+                      "betas": [],
+                      "children": [
+                        {
+                          "name": "ascent_96a168ae",
+                          "id": "b2042c0c-7b3d-4fcc-8e5f-56ff603235e3",
+                          "parent_id": "eb8dfb8d-e1eb-4c76-831e-857bacdc7388",
+                          "node_type": "Ascent",
+                          "tries": "redpoint",
+                          "first_ascent": false,
+                          "date": "2025-04-09",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Amedee",
+                  "id": "3a5983ea-5811-43c3-b5ad-9b7feb4cd778",
+                  "parent_id": "e9fed168-8de5-4754-a6c6-2633629c71cb",
+                  "node_type": "Location",
+                  "coords": null,
+                  "children": [
+                    {
+                      "name": "barbatruc",
+                      "id": "2e4bc28d-79f4-415c-98b5-a8917f81b246",
+                      "parent_id": "3a5983ea-5811-43c3-b5ad-9b7feb4cd778",
+                      "node_type": "Route",
+                      "grade": "7c+",
+                      "type": "Boulder",
+                      "comments": [
+                        "Wow wat een banger!"
+                      ],
+                      "betas": [],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+MDBoxLayout:
+    orientation: 'vertical'
+
+    MDTopAppBar:
+        type: 'small'
+
+        MDTopAppBarLeadingButtonContainer:
+            MDActionTopAppBarButton:
+                icon: 'menu'
+
+        MDTopAppBarTitle:
+            id: toolbar
+            text: 'Rocdoc'
+            # pos_hint: {'center_x': .5}
+
+        MDTopAppBarTrailingButtonContainer:
+            MDActionTopAppBarButton:
+                icon: 'plus'
+            MDActionTopAppBarButton:
+                icon: 'sort'
+            MDActionTopAppBarButton:
+                icon: 'dots-vertical'
+
+    MDScreenManager:
+        id: screen_manager
+        HomeScreen:
+            name: "home"
+        StatScreen:
+            name: "stats"
+
+    MDNavigationBar:
+        on_switch_tabs: app.on_switch_tabs(*args)
+        
+        MDNavigationItem:
+            name: "home"
+            direction: "right"
+            MDNavigationItemIcon:
+                icon: 'plus'
+            MDNavigationItemLabel:
+                text: "home"
+            
+        MDNavigationItem:
+            name: "stats"
+            direction: "left"
+            MDNavigationItemIcon:
+                icon: "account"
+            MDNavigationItemLabel:
+                text: "stats"

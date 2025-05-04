@@ -1,0 +1,42 @@
+# python
+__pycache__/
+*.py[cod]
+*.pyc
+*.egg-info/
+.pytest-cache/
+.mypy_cache/
+
+# Virtual Environment
+venv/
+.env/
+*.venv/
+bin/
+lib/
+include/
+pip-selfcheck.json
+
+# Kivy/KivyMD
+*.log
+*.Kv~
+*.kivy
+*.pyo
+
+# Project Files
+data/tree.json # Ignore generated JSON
+*.db
+
+# OS Junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.sublime-*
+
+
+
+
+

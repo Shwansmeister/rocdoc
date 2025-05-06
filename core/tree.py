@@ -122,10 +122,24 @@ class Node:
         self.children = []
         self._parent = None
         self._parent_id = None
+        self._depth = 0
+        self._is_expanded = True
+
 
     @property
     def parent(self):
         return self._parent
+
+    @property
+    def is_expanded(self):
+        return self._is_expanded
+
+    def toggle(self):
+        self._is_expanded = not self._is_expanded
+
+    @property
+    def depth(self):
+        return self.get_level()
     
     @parent.setter
     def parent(self, parent):
@@ -215,5 +229,3 @@ class Ascent(Node):
         ascent._date = date.fromisoformat(data['date']) # reconstruct date
         return ascent
 
-
-tree=Tree().from_json('tree.json')

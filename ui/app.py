@@ -1,51 +1,67 @@
+from kivy.app import StringProperty
+from kivy.clock import Clock
+from kivy.properties import ObjectProperty, NumericProperty, BooleanProperty
 from kivy.lang import Builder
-from kivy.properties import BooleanProperty
-from kivy.uix.behaviors import FocusBehavior
-from kivy.uix.label import Label
-from kivy.uix.recycleboxlayout import RecycleBoxLayout
+from kivy.resources import resource_find
 from kivy.uix.recycleview import RecycleView
-from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivymd.uix.screen import MDScreen
+from core.tree import Tree
 from kivymd.app import MDApp
+from kivymd.uix.boxlayout import MDBoxLayout
+
+class NodeItem(MDBoxLayout):
+    text = StringProperty()
+    depth = NumericProperty()
+    is_expanded = BooleanProperty()
 
 
-class RV(RecycleView):
-    def __init__(self, **kwargs):
-        super(RV, self).__init__(**kwargs)
-        self.data = [{'text': str(x)} for x in range(100)]
+class TreeRV(RecycleView):
+    def refresh_view(self, root_node):
+        self.data = self._flatten_tree(root_node)
 
-class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout):
-    ''' Adds selection and focus behavior to the view'''
+    def _flatten_tree(self, node):
+        visible_nodes = []
+        if not node:
+            return visible_nodes
+        
+        if node.name != 'root':
+            visible_nodes.append({
+                'viewclass': 'NodeItem',
+                'node': node,
+                'depth': node.depth,
+                'text': node.name,
+                'is_expanded': node.is_expanded,
+            })
 
-class SelectableLabel(RecycleDataViewBehavior, Label):
-    index = None
-    selected = BooleanProperty(False)
-    selectable = BooleanProperty(True)
-    
-    def refresh_view_attrs(self, rv, index, data):
-        self.index = index
-        return super(SelectableLabel, self).refresh_view_attrs(rv, index, data)
+        if node.is_expanded:
+            print(node.name)
+            for child in node.children:
+                visible_nodes.extend(self._flatten_tree(child))
+        return visible_nodes
 
-    # def on_touch_down(self, touch):
-    #     return super().on_touch_down(touch)
-
-    def on_touch_down(self, touch):
-        if super(SelectableLabel, self).on_touch_down(touch):
-            return True
-        if self.collide_point(*touch.pos) and self.selectable:
-            return self.parent.select_with_touch(self.index, touch)
-
-    def apply_selection(self, rv, index, is_selected):
-        self.selected = is_selected
-        if is_selected:
-            print("selection change to {0}".format(rv.data[index]))
-        else:
-            print("selection removed for {0}".format(rv.data[index]))
+class HomeScreen(MDScreen):
+    tree_view = ObjectProperty(None)
+    # chevron = ObjectProperty(None)
 
 
-class HomeScreen(Screen):
-    pass
+    def on_enter(self):
+        # print("RV exists?", hasattr(self, 'tree_view'))
+        Clock.schedule_once(self.init_tree) # Delay for widget creation
+
+    def init_tree(self, dt):
+        if not hasattr(self, 'tree'):
+            self.tree = Tree().from_json('data/tree.json')
+            if self.tree_view:
+                self.tree_view.refresh_view(self.tree.root)
+            else:
+                print("Error: tree_view no created!")
+
+    def on_node_click(self, node):
+        print(self.ids)
+        self.ids.chevron_icon = "chevron-down"
+        node.toggle()
+        self.tree_view.refresh_view(self.tree.root)
 
 class RouteScreen(Screen):
     pass
@@ -58,25 +74,13 @@ class RouteApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
 
-        # Builder.load_file('ui/main.kv')
         Builder.load_file('ui/screens/home.kv')
         Builder.load_file('ui/screens/stat.kv')
 
         return Builder.load_file('ui/main.kv')
 
-        # sm = ScreenManager()
-        # sm.add_widget(HomeScreen(name='home'))
-        # sm.add_widget(RouteScreen(name='route'))
-        # sm.add_widget(StatScreen(name='stats'))
-
-        # root = Builder.load_file('ui/main.kv')
-        # root.ids.screen_manager
-    
     def on_switch_tabs(self, bar, item, icon, name, direction=None):
         if self.root:
             self.root.ids.screen_manager.transition.direction = item.direction
             self.root.ids.screen_manager.current = name
             self.root.ids.toolbar.text = name.capitalize() if name != "home" else "Rocdoc"
-            # if name == "stats":
-            #     self.root.ids.toolbar.text = name.capitalize()
-            # else: self.root.ids.toolbar.text = "Rocdoc"

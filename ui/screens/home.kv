@@ -1,25 +1,27 @@
 <HomeScreen>
+    tree_view: rv_widget
+    # chevron: chevron_icon
     MDScreen:
-        RV:
+        TreeRV:
+            id: rv_widget
             size_hint: 1, 1
             pos_hint: {'top': 1}
-<RV>:
-    viewclass: 'SelectableLabel'
-    SelectableRecycleBoxLayout:
+<TreeRV>:
+    viewclass: 'NodeItem'
+    RecycleBoxLayout:
         default_size: None, dp(56)
         default_size_hint: 1, None
         size_hint_y: None
         height: self.minimum_height
         orientation: 'vertical'
-        spacing: dp(10)
-        spacing: dp(10)
-        multiselect: True
-        touch_multiselect: True
 
-<SelectableLabel>:
-    canvas.before:
-        Color:
-            rgba: (.0, .9, .1, .3) if self.selected else (0, 0, 0, 1)
-        Rectangle:
-            pos: self.pos
-            size: self.size
+<NodeItem@MDBoxLayout>:
+    MDListItem:
+        padding: [20*(root.depth-1),0,0,0]
+        on_release: app.root.ids.screen_manager.current_screen.on_node_click(root.node)
+        MDListItemLeadingIcon:
+            # id: chevron_icon
+            icon: 'chevron-right' if root.is_expanded else 'chevron-down'
+        MDListItemHeadlineText:
+            text: root.text
+    
